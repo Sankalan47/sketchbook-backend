@@ -5,12 +5,17 @@ const cors = require("cors");
 const app = express();
 const httpServer = createServer(app);
 
-app.use(cors({ origin: "http://localhost:3000" }));
+const isDev = app.settings.env === "development";
+const URL = isDev
+  ? "http://localhost:3000"
+  : "https://sketchbook-eta-coral.vercel.app";
+
+app.use(cors({ origin: URL }));
 
 const io = new Server(httpServer, {
   /* options */
   cors: {
-    origin: "http://localhost:3000",
+    origin: URL,
   },
 });
 
